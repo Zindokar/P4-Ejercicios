@@ -1,0 +1,159 @@
+body {
+    font-family: Arial, Helvetica, Verdana;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d2dfed+0,c8d7eb+26,bed0ea+51,a6c0e3+51,afc7e8+62,bad0ef+75,99b5db+88,799bc8+100;Grey+Blue+Gloss+%231 */
+    background: rgb(210,223,237); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(210,223,237,1) 0%, rgba(200,215,235,1) 26%, rgba(190,208,234,1) 51%, rgba(166,192,227,1) 51%, rgba(175,199,232,1) 62%, rgba(186,208,239,1) 75%, rgba(153,181,219,1) 88%, rgba(121,155,200,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(210,223,237,1) 0%,rgba(200,215,235,1) 26%,rgba(190,208,234,1) 51%,rgba(166,192,227,1) 51%,rgba(175,199,232,1) 62%,rgba(186,208,239,1) 75%,rgba(153,181,219,1) 88%,rgba(121,155,200,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(210,223,237,1) 0%,rgba(200,215,235,1) 26%,rgba(190,208,234,1) 51%,rgba(166,192,227,1) 51%,rgba(175,199,232,1) 62%,rgba(186,208,239,1) 75%,rgba(153,181,219,1) 88%,rgba(121,155,200,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2dfed', endColorstr='#799bc8',GradientType=0 ); /* IE6-9 */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.cabecera {
+    margin: 0 auto;
+    width: 1440px;
+}
+
+.titulo {
+    margin: 0 auto;
+    margin-top: 15px;
+    width: 800px;
+    text-align: center;
+    border-bottom: solid black 2px;
+}
+
+.menu {
+    list-style-type: none;
+    width: 250px;
+    margin: 0 auto;
+    margin-top: 35px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    overflow: hidden;
+    background: #E5E5E5;
+    -webkit-border-radius: 20px 0px 20px 0px;
+    border-radius: 20px 0px 20px 0px;
+    -webkit-box-shadow:inset 0 0 5px 5px #C9C9C9;
+    box-shadow:inset 0 0 5px 5px #C9C9C9;
+}
+
+.menuItem {
+    float: left;
+    margin-left: 10px;
+}
+
+.menuItem a {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.menuItem a:hover:not(.active) {
+    background-color: #FC9F5B;
+}
+
+.cuerpo {
+    margin: 0 auto;
+    width: 1440px;
+}
+
+.parrafo {
+    margin-top: 30px;
+    padding: 15px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100;Grey+Gloss+%231 */
+    background: rgb(226,226,226); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background-repeat: no-repeat;
+    -webkit-border-radius: 20px 0px 20px 0px;
+    border-radius: 20px 0px 20px 0px;
+    -webkit-box-shadow:inset 0 0 5px 5px #C9C9C9;
+    box-shadow:inset 0 0 5px 5px #C9C9C9;
+}
+
+.imagenParrafo {
+    float: left;
+    margin-left: 30px;
+}
+
+.textoParrafo {
+    float: left;
+    width: 800px;
+    text-align: center;
+}
+
+.separador {
+    clear: both;
+}
+
+.textoContacto {
+    text-align: center;
+}
+
+.tabla
+{
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 1440px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabla th
+{
+    font-size: 14px;
+    font-weight: normal;
+    color: #039;
+    padding: 10px 8px;
+    border-bottom: 2px solid #6678b1;
+
+}
+
+.tabla td
+{
+    border-bottom: 1px solid #ccc;
+    color: #669;
+    padding: 6px 8px;
+}
+
+.cabeceraTable {
+    background: #F0EDF3;
+}
+
+.impar {
+    background: #FAF9FB;
+}
+
+.par {
+    background: #e5e5e5;
+}
+
+.tabla tbody tr:hover td
+{
+    color: #009;
+    background: #E1DBE8;
+}
+
+.texto {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.negrita {
+    font-weight: bold;
+}
+
+.descripcionProducto {
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 25px;
+}
+
+.descripcionLista {
+    list-style-type: none;
+    margin: 0 auto;
+
+}
