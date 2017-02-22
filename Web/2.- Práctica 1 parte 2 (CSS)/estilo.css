@@ -1,3 +1,7 @@
+@media print {
+    
+}
+
 body {
     font-family: Arial, Helvetica, Verdana;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d2dfed+0,c8d7eb+26,bed0ea+51,a6c0e3+51,afc7e8+62,bad0ef+75,99b5db+88,799bc8+100;Grey+Blue+Gloss+%231 */
@@ -9,9 +13,16 @@ body {
     background-attachment: fixed;
 }
 
+h2 {
+    text-align: center;
+    width: 250px;
+    margin: 0 auto;
+    color: #6678b1;
+}
+
 .cabecera {
     margin: 0 auto;
-    width: 1440px;
+    width: 900px;
 }
 
 .titulo {
@@ -31,8 +42,8 @@ body {
     padding-bottom: 8px;
     overflow: hidden;
     background: #E5E5E5;
-    -webkit-border-radius: 20px 0px 20px 0px;
-    border-radius: 20px 0px 20px 0px;
+    -webkit-border-radius: 20px 0 20px 0;
+    border-radius: 20px 0 20px 0 ;
     -webkit-box-shadow:inset 0 0 5px 5px #C9C9C9;
     box-shadow:inset 0 0 5px 5px #C9C9C9;
 }
@@ -54,7 +65,7 @@ body {
 
 .cuerpo {
     margin: 0 auto;
-    width: 1440px;
+    width: 900px;
 }
 
 .parrafo {
@@ -66,21 +77,20 @@ body {
     background: -webkit-linear-gradient(-45deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(135deg,  rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     background-repeat: no-repeat;
-    -webkit-border-radius: 20px 0px 20px 0px;
-    border-radius: 20px 0px 20px 0px;
+    -webkit-border-radius: 20px 0 20px 0;
+    border-radius: 20px 0 20px 0;
     -webkit-box-shadow:inset 0 0 5px 5px #C9C9C9;
     box-shadow:inset 0 0 5px 5px #C9C9C9;
 }
 
 .imagenParrafo {
-    float: left;
-    margin-left: 30px;
+    margin-top: 5px;
+    text-align: center
 }
 
 .textoParrafo {
-    float: left;
-    width: 800px;
-    text-align: center;
+    margin-top: 15px;
+    text-align: left;
 }
 
 .separador {
@@ -95,7 +105,7 @@ body {
 {
     margin: 0 auto;
     margin-top: 40px;
-    width: 1440px;
+    width: 900px;
     border-collapse: collapse;
     text-align: left;
 }
@@ -145,13 +155,17 @@ body {
 }
 
 .descripcionProducto {
+    float: left;
     width: 500px;
     margin: 0 auto;
     margin-top: 25px;
 }
 
+.fotoProducto {
+    float: left;
+}
+
 .descripcionLista {
     list-style-type: none;
     margin: 0 auto;
-
 }
