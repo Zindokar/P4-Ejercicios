@@ -7,13 +7,16 @@
 
     // Variables de control
     $msg = "";
+    $color = "";
 
     // Llamadas al control
     if (isset($_POST['login'])) {
         if (User::login($_POST['userLogin'], $_POST['passLogin'])) {
             $msg = "Identificado correctamente";
+            $color = "correcto";
         } else {
             $msg = "Credenciales incorrectas";
+            $color = "incorrecto";
         }
     }
 ?>
@@ -29,14 +32,13 @@
 <?php
     View::start();
     if ($msg != "") {
-        echo '<div class="correcto">' . $msg . '</div>';
+        echo '<div class="' . $color . '">' . $msg . '</div>';
     }
     // Selector de vistas
     if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 1) { // Admin
         $view = new AdminView();
     } else if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 2) { // Cliente
         $view = new ClientView();
-
     } else if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 3) { // Repartidor
         $view = new DeliverymanView();
     } else { // Usuario no identificado

@@ -4,7 +4,7 @@ include_once('Connection.php');
 class UserBD {
 	
 	public static function getAllUsers() {
-		$connection = new Connection("./../../datos.db");
+		$connection = new Connection("./datos.db");
 		try
 		{
 			$connectionLink = $connection->connect();
