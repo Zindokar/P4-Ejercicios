@@ -50,10 +50,6 @@ class Usuario {
 	
 	public function __set($atributo, $valor) {
 		switch ($atributo) {
-			case 'id':
-				$this->id = $valor;
-				break;
-				
 			case 'usuario':
 				$this->usuario = $valor;
 				break;

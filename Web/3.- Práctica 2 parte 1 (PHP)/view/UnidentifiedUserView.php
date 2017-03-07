@@ -1,6 +1,6 @@
 <?php
 class UnidentifiedUserView {
-    public static function signInForm() {
+    public function signInForm() {
         echo '
             <div class="loginForm">
                 <span class="titulito negrita">Identificación</span>

@@ -1,12 +1,12 @@
 <?php
-include_once('persistence/UserBD.php');
+include_once('persistence/UserDB.php');
 include_once('model/Usuario.php');
 
 class UserControl {
 	
 	public function getAllUsers() {
 		$queryResult = UserDB::getAllUsers();
-		$users = array();
+        $users = array();
 		foreach ($queryResult as $user) {
 			array_push($users,
 				new Usuario(
@@ -21,6 +21,6 @@ class UserControl {
 		}
 		return $users;
 	}
-	
+
 }
 ?>

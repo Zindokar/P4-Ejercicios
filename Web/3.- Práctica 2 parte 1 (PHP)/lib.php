@@ -1,5 +1,11 @@
 <?php
 class View{
+    public static function welcome() {
+        echo '<div class="bienvenida">
+                Bienvenid@ '. $_SESSION['user']['nombre'] .'
+            </div>';
+    }
+
     public static function start(){
         User::session_start();
         echo '<h1 class="titulo">Distribuidora Krypto</h1>';
