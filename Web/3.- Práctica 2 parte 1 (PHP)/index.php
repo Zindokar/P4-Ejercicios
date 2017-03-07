@@ -20,6 +20,35 @@
         }
     }
 
+    if (isset($_POST['newUser'])) {
+        $control = new UserControl();
+        $control->registerUser($_POST['newUsername'], $_POST['newPassword'], $_POST['newNombre'], $_POST['newTipo'], $_POST['newPoblacion'], $_POST['newDireccion']);
+        $msg = "Usuario registrado";
+        $color = "correcto";
+    }
+
+    if (isset($_POST['editUser'])) {
+        $control = new UserControl();
+        $control->editUser($_POST['editID'], $_POST['editPassword'], $_POST['editNombre'], $_POST['editTipo'], $_POST['editPoblacion'], $_POST['editDireccion']);
+        $msg = "Usuario editado correctamente";
+        $color = "correcto";
+    }
+
+    /* TO-DO */
+    if (isset($_POST['deleteConfirm'])) {
+        /*$control = new UserControl();
+        try {
+            $control->confirmedToDeleteUserByID($_POST['userID']);
+            $msg = "Usuario borrado correctamente";
+            $color = "correcto";
+        } catch (Exception $e) {
+            $msg = $e;
+            $color = "incorrecto";
+        }*/
+        $msg = "-- Por Implementar --";
+        $color = "incorrecto";
+    }
+
     if (isset($_POST['logout'])) {
         User::logout();
         $msg = "Desconectado correctamente";
@@ -50,6 +79,23 @@
     if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 1) { // Admin
         View::welcome();
         $view = new AdminView();
+        $view->menu();
+        // Se puede mejorar
+        if (isset($_GET['page'])) {
+            switch ($_GET['page']) {
+                case 1:
+                    $view->createUserForm();
+                    break;
+            }
+        } else {
+            if (isset($_GET['edit'])) {
+                $view->editUser($_GET['edit']);
+            } else if (isset($_GET['delete'])) {
+                $view->deleteUser($_GET['delete']);
+            } else {
+                $view->listUsers();
+            }
+        }
     } else if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 2) { // Cliente
         View::welcome();
         $view = new ClientView();

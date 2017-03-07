@@ -169,3 +169,15 @@ h2 {
     color: #009;
     background: #E1DBE8;
 }
+
+.botonBorrar {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.botonCancelar {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 10px;
+}

@@ -22,6 +22,7 @@ class ClientView {
         $control = new BebidaControl();
         $drinks = $control->getAllDrinks();
         echo '<div class="cuerpo">
+                <p>Lista de bebidas</p>
                 <table class="tabla">
                     <thead>
                         <th>id</th>
@@ -43,6 +44,7 @@ class ClientView {
         $control = new BebidaControl();
         $drinks = $control->getAllDrinks();
         echo '<div class="cuerpo">
+                <p>Crea un nuevo pedido</p>
                 <form action="index.php" method="post">
                     <table class="tabla">
                         <thead>
@@ -67,10 +69,10 @@ class ClientView {
         $control = new PedidoControl();
         $deliveries = $control->getAllDeliveriesByUserID($id);
         echo '<div class="cuerpo">
+                <p>Lista de sus pedidos</p>
                 <table class="tabla">
                     <thead>
                         <th>id</th>
-                        <th>Cliente</th>
                         <th>Hora creación</th>
                         <th>Población entrega</th>
                         <th>Dirección entrega</th>
@@ -84,7 +86,6 @@ class ClientView {
                     <tbody>';
         foreach ($deliveries as $delivery) {
             echo '<tr><td>' . $delivery->id . '</td>';
-            echo '<td>' . $delivery->idcliente . '</td>';
             echo '<td>' . $delivery->printDateFromEpoch($delivery->horacreacion) . '</td>';
             echo '<td>' . $delivery->poblacionentrega . '</td>';
             echo '<td>' . $delivery->direccionentrega . '</td>';
@@ -101,11 +102,12 @@ class ClientView {
     public function orderDetails($id) {
         $control = new LineasPedidoControl();
         $drinkItems = $control->getAllItemsFromOrderID($id);
+        $bebidaControl = new BebidaControl();
         echo '<div class="cuerpo">
+                <p>Pedido con id: <span class="negrita">' . $id . '</span></p>
                 <table class="tabla">
                     <thead>
                         <th>id</th>
-                        <th>Pedido</th>
                         <th>Bebida</th>
                         <th>Unidades</th>
                         <th>PVP</th>
@@ -113,8 +115,7 @@ class ClientView {
                     <tbody>';
         foreach ($drinkItems as $item) {
             echo '<tr><td>' . $item->id . '</td>';
-            echo '<td>' . $item->idpedido . '</td>';
-            echo '<td>' . $item->idbebida . '</td>';
+            echo '<td>' . $bebidaControl->getDrinkNameByID($item->idbebida) . '</td>';
             echo '<td>' . $item->unidades . '</td>';
             echo '<td>' . $item->pvp . '</td></tr>';
         }

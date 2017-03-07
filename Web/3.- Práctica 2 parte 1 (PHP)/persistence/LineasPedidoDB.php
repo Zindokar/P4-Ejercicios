@@ -27,6 +27,30 @@ class LineasPedidoDB {
         return "";
     }
 
+    public static function deleteAllOrderItemsByDeliveryID($id) {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->prepare("DELETE FROM lineaspedido WHERE idpedido = :idpedido;");
+            $data->bindParam(':idpedido', $id, PDO::PARAM_INT);
+            $data->execute();
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+
     public static function insertOrderItem($orderid, $drinkid, $quantity, $pvp) {
         $connection = new Connection("./datos.db");
         try

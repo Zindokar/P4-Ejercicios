@@ -28,26 +28,32 @@ class PedidoControl {
 
     public function insertNewOrder($idList, $quantityList, $pvpList) {
         session_start();
-        // Calculamos el pvp total
+        // Calculamos el pvp total para la tabla pedidos
         $totalPVP = 0.0;
         for ($i = 0; $i < sizeof($idList); $i++) {
             $totalPVP += $pvpList[$i] * $quantityList[$i];
         }
         // Insertamos nuevo pedido
         PedidoDB::insertNewOrder($_SESSION['user']['id'], $_SESSION['user']['poblacion'], $_SESSION['user']['direccion'], time('now'), $totalPVP);
-        // Obtenemos ID del último pedido creado
+        // Obtenemos ID del último pedido creado para usar el mismo en lineaspedido
         $lastID = PedidoDB::getLastOrderID();
         $lastID = $lastID->fetch(PDO::FETCH_ASSOC);
         $lastID = $lastID['lastID'];
         if ($lastID == "") {
             $lastID = 1;
         }
-        // Insertamos las lineaspedido del pedido
-        $control = new LineasPedidoControl();
+        // Insertamos las lineaspedido del pedido de una en una por cada bebida
+        $controlPedidos = new LineasPedidoControl();
+        $controlBebidas = new BebidaControl();
         for ($i = 0; $i < sizeof($idList); $i++) {
-            if ($quantityList[$i] != 0) {
-                $control->insertOrderItem($lastID, $idList[$i], $quantityList[$i], $quantityList[$i] * $pvpList[$i]);
+            if ($quantityList[$i] != 0 && $quantityList[$i] != "") { // Comprobamos al menos que en los textbox no haya un 0 o vacío
+                $controlPedidos->insertOrderItem($lastID, $idList[$i], $quantityList[$i], $pvpList[$i]);
+                $controlBebidas->decreaseStockByDrinkID($idList[$i], $quantityList[$i]);
             }
         }
+    }
+
+    public function deleteDeliveriesByUserID($id) {
+        PedidoDB::deleteDeliveriesByUserID($id);
     }
 }

@@ -27,6 +27,29 @@ class PedidoDB {
         return "";
     }
 
+    public static function deleteDeliveriesByUserID($id) {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->prepare("DELETE FROM pedidos WHERE idcliente = :idcliente;");
+            $data->bindParam(':idcliente', $id, PDO::PARAM_INT);
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+
     public static function getLastOrderID() {
         $connection = new Connection("./datos.db");
         try
@@ -76,4 +99,6 @@ class PedidoDB {
         }
         return "";
     }
+
+
 }

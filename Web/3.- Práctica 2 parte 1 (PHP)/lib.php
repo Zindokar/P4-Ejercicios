@@ -10,19 +10,12 @@ class View{
         User::session_start();
         echo '<h1 class="titulo">Distribuidora Krypto</h1>';
     }
-    public static function menu() {
-        echo '<div class="cabecera">
-                <ul class="menu">
-                    <li class="menuItem"><a href="index.html">Inicio</a></li>
-                    <li class="menuItem"><a href="tabla.html">Productos</a></li>
-                    <li class="menuItem"><a href="contacto.html">Contacto</a></li>
-                </ul>
-            </div>';
-    }
+
     public static function navigation(){
         echo '<nav>';
         echo '</nav>';
     }
+
     public static function end(){
         echo '<div class="pie">Copyright &copy; 2015-2025 Distribuidoras Krypro</div>';
     }

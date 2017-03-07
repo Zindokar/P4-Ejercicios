@@ -24,4 +24,8 @@ class LineasPedidoControl {
         return $drinkItems;
     }
 
+    public function deleteAllOrderItemsByDeliveryID($id) {
+        LineasPedidoDB::deleteAllOrderItemsByDeliveryID($id);
+    }
+
 }
