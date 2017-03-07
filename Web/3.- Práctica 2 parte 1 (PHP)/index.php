@@ -60,6 +60,21 @@
         $control = new PedidoControl();
         $control->insertNewOrder($_POST['drinkID'], $_POST['drinkQuantity'], $_POST['drinkPVP']);
     }
+
+    if (isset($_POST['asignarPedido'])) {
+        $control = new PedidoControl();
+        $control->assignDelivery($_POST['pedidoID'], $_POST['repartidorID']);
+    }
+
+    if (isset($_POST['iniciarEntrega'])) {
+        $control = new PedidoControl();
+        $control->startDelivery($_POST['pedidoID']);
+    }
+
+    if (isset($_POST['finalizarEntrega'])) {
+        $control = new PedidoControl();
+        $control->finishDelivery($_POST['pedidoID']);
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -125,6 +140,21 @@
     } else if (isset($_SESSION['user']) && $_SESSION['user']['tipo'] == 3) { // Repartidor
         View::welcome();
         $view = new DeliverymanView();
+        $view->menu();
+        if (isset($_GET['page'])) {
+            switch ($_GET['page']) {
+                default:
+                case 1:
+                    $view->listAllUnassignedDeliveries();
+                    break;
+
+                case 2:
+                    $view->listMyDeliveries();
+                    break;
+            }
+        } else {
+            $view->listAllUnassignedDeliveries();
+        }
     } else { // Usuario no identificado
         $view = new UnidentifiedUserView();
         $view->signInForm();

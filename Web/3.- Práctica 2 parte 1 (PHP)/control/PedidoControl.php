@@ -56,4 +56,58 @@ class PedidoControl {
     public function deleteDeliveriesByUserID($id) {
         PedidoDB::deleteDeliveriesByUserID($id);
     }
+
+    public function getAllUnassignedDeliveries() {
+        $queryResult = PedidoDB::getAllUnassignedDeliveries();
+        $deliveries = array();
+        foreach ($queryResult as $delivery) {
+            array_push($deliveries,
+                new Pedido(
+                    $delivery['id'],
+                    $delivery['idcliente'],
+                    $delivery['horacreacion'],
+                    $delivery['poblacionentrega'],
+                    $delivery['direccionentrega'],
+                    $delivery['idrepartidor'],
+                    $delivery['horaasignacion'],
+                    $delivery['horareparto'],
+                    $delivery['horaentrega'],
+                    $delivery['PVP']
+                ));
+        }
+        return $deliveries;
+    }
+
+    public function getAllDeliveriesByDeliverymanID($id) {
+        $queryResult = PedidoDB::getAllDeliveriesByDeliverymanID($id);
+        $deliveries = array();
+        foreach ($queryResult as $delivery) {
+            array_push($deliveries,
+                new Pedido(
+                    $delivery['id'],
+                    $delivery['idcliente'],
+                    $delivery['horacreacion'],
+                    $delivery['poblacionentrega'],
+                    $delivery['direccionentrega'],
+                    $delivery['idrepartidor'],
+                    $delivery['horaasignacion'],
+                    $delivery['horareparto'],
+                    $delivery['horaentrega'],
+                    $delivery['PVP']
+                ));
+        }
+        return $deliveries;
+    }
+
+    public function assignDelivery($order, $delivery) {
+        PedidoDB::assignDelivery($order, $delivery);
+    }
+
+    public function startDelivery($order) {
+        PedidoDB::startDelivery($order);
+    }
+
+    public function finishDelivery($order) {
+        PedidoDB::finishDelivery($order);
+    }
 }
