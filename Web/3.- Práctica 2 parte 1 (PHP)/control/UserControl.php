@@ -50,6 +50,7 @@ class UserControl {
         $controOrderItems = new LineasPedidoControl();
         // Primero borro las entradas de lineaspedido de los pedidos del usuario
         foreach ($deliveriesToDelete as $delivery) {
+            // Debería aumentar el stock si no está entregado el pedido?
             $controOrderItems->deleteAllOrderItemsByDeliveryID($delivery->id);
         }
         // Borro los pedidos del usuario
