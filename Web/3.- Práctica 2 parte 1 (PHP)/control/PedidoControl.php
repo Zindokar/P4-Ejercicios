@@ -27,21 +27,12 @@ class PedidoControl {
     }
 
     public function insertNewOrder($idList, $quantityList, $pvpList) {
-        // Comprobamos que exista stock
-        $bebidaControl = new BebidaControl();
-        for ($i = 0; $i < sizeof($idList); $i++) {
-            if ($bebidaControl->getDrinkByID($idList[$i])->stock < $quantityList[$i]) {
-                throw new Exception("No hay stock suficiente para hacer el pedido.");
-            }
-        }
-
+        session_start();
         // Calculamos el pvp total para la tabla pedidos
         $totalPVP = 0.0;
         for ($i = 0; $i < sizeof($idList); $i++) {
             $totalPVP += $pvpList[$i] * $quantityList[$i];
         }
-
-        session_start();
         // Insertamos nuevo pedido
         PedidoDB::insertNewOrder($_SESSION['user']['id'], $_SESSION['user']['poblacion'], $_SESSION['user']['direccion'], time('now'), $totalPVP);
         // Obtenemos ID del último pedido creado para usar el mismo en lineaspedido

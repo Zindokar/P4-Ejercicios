@@ -123,7 +123,7 @@ class Pedido {
     }
 
     public function getDeliveryStatus() {
-        // Si no hay hora de asignación, toca empezar a repartir
+        // Si no hay hora de asignación, toca empezar a
         if ($this->horareparto == "" || $this->horareparto == 0) {
             return 1;
         } else if ($this->horaentrega == "" || $this->horaentrega == 0) { // No se ha entregado pero está en reparto
