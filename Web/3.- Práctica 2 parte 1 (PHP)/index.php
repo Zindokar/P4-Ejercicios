@@ -34,9 +34,8 @@
         $color = "correcto";
     }
 
-    /* TO-DO */
     if (isset($_POST['deleteConfirm'])) {
-        /*$control = new UserControl();
+        $control = new UserControl();
         try {
             $control->confirmedToDeleteUserByID($_POST['userID']);
             $msg = "Usuario borrado correctamente";
@@ -44,9 +43,7 @@
         } catch (Exception $e) {
             $msg = $e;
             $color = "incorrecto";
-        }*/
-        $msg = "-- Por Implementar --";
-        $color = "incorrecto";
+        }
     }
 
     if (isset($_POST['logout'])) {
@@ -58,7 +55,14 @@
     // Llamadas al control de Pedido
     if (isset($_POST['newOrder'])) {
         $control = new PedidoControl();
-        $control->insertNewOrder($_POST['drinkID'], $_POST['drinkQuantity'], $_POST['drinkPVP']);
+        try {
+            $control->insertNewOrder($_POST['drinkID'], $_POST['drinkQuantity'], $_POST['drinkPVP']);
+            $msg = "Pedido creado correctamente";
+            $color = "correcto";
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            $color = "incorrecto";
+        }
     }
 
     if (isset($_POST['asignarPedido'])) {

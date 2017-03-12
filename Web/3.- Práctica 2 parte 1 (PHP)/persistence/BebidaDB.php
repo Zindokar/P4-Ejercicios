@@ -25,7 +25,7 @@ class BebidaDB {
         return "";
     }
 
-    public static function getDrinkNameByID($id) {
+    public static function getDrinkByID($id) {
         $connection = new Connection("./datos.db");
         try
         {
@@ -33,7 +33,7 @@ class BebidaDB {
             $connectionLink->exec("PRAGMA encoding='UTF-8';");
             $connectionLink->exec("PRAGMA foreign_keys = ON;");
             $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $data = $connectionLink->prepare("SELECT marca FROM bebidas WHERE id = :id;");
+            $data = $connectionLink->prepare("SELECT * FROM bebidas WHERE id = :id;");
             $data->bindParam(":id", $id, PDO::PARAM_INT);
             $data->execute();
             $connection = null;

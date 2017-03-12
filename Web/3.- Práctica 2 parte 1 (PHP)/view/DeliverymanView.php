@@ -33,6 +33,7 @@ class DeliverymanView {
                         <th>Hora reparto</th>
                         <th>Hora entrega</th>
                         <th>PVP</th>
+                        <th>Estado</th>
                         <th></th>
                     </thead>
                     <tbody>';
@@ -47,6 +48,7 @@ class DeliverymanView {
             echo '<td>' . $delivery->printDateFromEpoch($delivery->horareparto) . '</td>';
             echo '<td>' . $delivery->printDateFromEpoch($delivery->horaentrega) . '</td>';
             echo '<td>' . $delivery->pvp . '</td>';
+            echo '<td><span class="negrita">Sin asignación</span></td>';
             echo '<td>
                     <form action="index.php" method="post">
                         <input type="submit" name="asignarPedido" value="Asignarme" />
@@ -75,7 +77,7 @@ class DeliverymanView {
                         <th>Hora reparto</th>
                         <th>Hora entrega</th>
                         <th>PVP</th>
-                        <th></th>
+                        <th>Estado</th>
                     </thead>
                     <tbody>';
         foreach ($deliveries as $delivery) {
