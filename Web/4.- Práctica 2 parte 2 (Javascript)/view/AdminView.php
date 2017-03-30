@@ -130,7 +130,7 @@ class AdminView {
         $user = $control->getUserByID($id);
         echo '<div class="cuerpo">
                 <p>Editar usuario</p>
-                <form action="index.php" method="post">
+                <form action="index.php" method="post" name="editUserForm" id="editUserForm">
                     <table class="tabla">
                         <thead>
                             <th><span class="negrita">Campo</span></th>
@@ -147,33 +147,46 @@ class AdminView {
                             </tr>
                             <tr>
                                 <td><span class="negrita">Contraseña</span></td>
-                                <td><input type="password" name="editPassword" placeholder="Escribir para modificar" /></td>
+                                <td>
+                                    <input type="password" id="passwd" name="editPassword" placeholder="Escribir para modificar" />
+                                    <span id="passdiv" style="display: none;"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><span class="negrita">Nombre</span></td>
-                                <td><input type="text" name="editNombre" value="' . $user->nombre . '" /></td>
+                                <td>
+                                    <input type="text" id="nombre" name="editNombre" value="' . $user->nombre . '" />
+                                    <span id="nombrediv" style="display: none;"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><span class="negrita">Tipo</span></td>
                                 <td>
-                                    <select name="editTipo">';
+                                    <select name="editTipo" id="tipoUsuario" onchange="showOrHideAdress();">';
                                     for ($i = 1; $i < 4; $i++) {
                                         echo '<option value="' . $i . '"' . ($i == $user->tipo ? "selected" : ""). '>' . $user->getTypeString($i) . '</option>';
                                     }
         echo                        '</select></td>
                             </tr>
-                            <tr>
+                            <tr id="poblacion">
                                 <td><span class="negrita">Población</span></td>
-                                <td><input type="text" name="editPoblacion" value="' . $user->poblacion . '" /></td>
+                                <td>
+                                    <input type="text" name="editPoblacion" id="pobla" value="' . $user->poblacion . '" />
+                                    <span id="pobladiv" style="display: none;"></span>
+                                </td>
                             </tr>
-                            <tr>
+                            <tr id="direccion">
                                 <td><span class="negrita">Dirección</span></td>
-                                <td><input type="text" name="editDireccion" value="' . $user->direccion . '" /></td>
+                                <td>
+                                    <input type="text" name="editDireccion" id="direc" value="' . $user->direccion . '" />
+                                    <span id="direcdiv" style="display: none;"></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <input type="hidden" name="editID" value="' . $user->id . '" />
-                    <input type="submit" name="editUser" value="Editar" />
+                    <input type="hidden" name="editUser" />
+                    <input type="button" value="Editar" onClick="checkEditUser();" />
                 </form>
             </div>';
     }
@@ -181,7 +194,7 @@ class AdminView {
     public function createUserForm() {
         echo '<div class="cuerpo">
                 <p>Registro de usuario</p>
-                <form action="index.php" method="post">
+                <form action="index.php" method="post" name="createUserForm" id="createUserForm">
                     <table class="tabla">
                         <thead>
                             <th><span class="negrita">Campo</span></th>
@@ -190,37 +203,52 @@ class AdminView {
                         <tbody>
                             <tr>
                                 <td><span class="negrita">Usuario</span></td>
-                                <td><input type="text" name="newUsername" required /></td>
+                                <td>
+                                    <input type="text" id="username" name="newUsername" />
+                                    <span id="usernamediv" style="display: none;"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><span class="negrita">Contraseña</span></td>
-                                <td><input type="password" name="newPassword" required /></td>
+                                <td>
+                                    <input type="password" id="passwd" name="newPassword" />
+                                    <span id="passdiv" style="display: none;"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><span class="negrita">Nombre</span></td>
-                                <td><input type="text" name="newNombre" required /></td>
+                                <td>
+                                    <input type="text" id="nombre" name="newNombre" />
+                                    <span id="nombrediv" style="display: none;"></span>
+                                </td>
                             </tr>
                             <tr>
                                 <td><span class="negrita">Tipo</span></td>
                                 <td>
-                                    <select name="newTipo">
+                                    <select name="newTipo" id="tipoUsuario" onchange="showOrHideAdress();">
                                         <option value="1">Administrador</option>
                                         <option value="2" selected>Cliente</option>
                                         <option value="3">Repartidor</option>
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="poblacion">
                                 <td><span class="negrita">Población</span></td>
-                                <td><input type="text" name="newPoblacion" /></td>
+                                <td><input type="text" id="pobla" name="newPoblacion" />
+                                    <span id="pobladiv" style="display: none;"></span>
+                                </td>
                             </tr>
-                            <tr>
+                            <tr id="direccion">
                                 <td><span class="negrita">Dirección</span></td>
-                                <td><input type="text" name="newDireccion" /></td>
+                                <td>
+                                    <input type="text" id="direc" name="newDireccion" />
+                                    <span id="direcdiv" style="display: none;"></span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                    <input type="submit" name="newUser" value="Registrar" />
+                    <input type="hidden" name="newUser" />
+                    <input type="button" value="Registrar" onClick="checkNewUser();" />
                 </form>
             </div>';
     }

@@ -27,6 +27,28 @@ class LineasPedidoDB {
         return "";
     }
 
+    public static function getLastItemOrder() {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->query("SELECT * FROM lineaspedido WHERE id = (SELECT Max(id) as id FROM lineaspedido);");
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+
     public static function getAllItemsFromOrderID($id) {
         $connection = new Connection("./datos.db");
         try

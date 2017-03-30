@@ -49,28 +49,29 @@ class ClientView {
     public function orderMenu() {
         $control = new BebidaControl();
         $drinks = $control->getAllDrinks();
-      
         echo '<div class="cuerpo">
-            
                 <p>Crea o actualiza tu pedido</p>
-                <form action="index.php?page=2" method="post"><table class="tabla">
+                <table class="tabla">
                     <tr>
                         <td><span class="negrita">Selecciona bebida</span></td>
                         <td>
-                            <select name="drinkID">';
+                            <select name="drinkID" id="drinkID">';
                                 foreach ($drinks as $drink) {
-                                        echo '<option value="' . $drink->id . '">' . $drink->marca . '</option>';
+                                    echo '<option value="' . $drink->id . '">' . $drink->marca . '</option>';
                                 }
         echo '              </select>
                         </td>
                     </tr>
                     <tr>
                         <td><span class="negrita">Cantidad</span></td>
-                        <td><input type="text" name="drinkQuantity" required /></td>
+                        <td>
+                            <input type="text" name="drinkQuantity" id="drinkQuantity" />
+                            <span id="drinkQuantityDiv" style="display: none;"></span>
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="submit" name="updateOrder" value="Actualizar pedido" /></td>
-                    </tr></form>
+                        <td colspan="2"><input type="button" value="Actualizar pedido" onclick="addItemOrder();" /></td>
+                    </tr>
                     <tr><form action="index.php?page=3" method="post"><td colspan="2"><input type="submit" name="finishOrder" value="Terminar pedido" /></form></td></tr>
                 </table>';
         $this->printCurrentOrder();
@@ -80,9 +81,11 @@ class ClientView {
         $orderItemsControl = new LineasPedidoControl();
         $orderItems = $orderItemsControl->getAllItemsFromUnfinishedOrderByClientID($_SESSION['user']['id']);
         echo '<div class="cuerpo">';
-        if (sizeof($orderItems) > 0) {
             echo '<p>Listado de bebidas del pedido sin finalizar</p>';
-            echo '<table class="tabla">
+            echo '<table class="tabla" id="itemOrderPVPTable">';
+            $currentPVP = PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id']);
+            echo "<tr><td><span class='negrita'>Total: </span></td><td><span class='negrita' id='pvpTotal'>" . ($currentPVP == null ? "0" : $currentPVP[0]['PVP']) . "</span> €</td></tr></table>";
+            echo '<table class="tabla" id="itemOrderTable">
                     <thead>
                         <th>id</th>
                         <th>Bebida</th>
@@ -102,11 +105,7 @@ class ClientView {
                                 <input type="button" value="Eliminar" onclick=\'deleteItemByID(' . $item->id . ', "' . $marcaActual . '");\' />
                               </td></tr>';
                     }
-                    echo "<tr><td></td><td></td><td>Total: </td><td><span id='pvpTotal'>" . PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id'])[0]['PVP'] . "</span> €</td></tr>";
                 echo '</tbody></table>';
-        } else {
-            echo '<p><span class="negrita">Pedido vacío</span></p>';
-        }
         echo '</div>';
     }
 

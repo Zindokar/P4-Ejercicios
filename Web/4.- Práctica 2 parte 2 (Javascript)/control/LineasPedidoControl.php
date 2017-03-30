@@ -21,6 +21,18 @@ class LineasPedidoControl {
         LineasPedidoDB::insertOrderItem($orderid, $drinkid, $quantity, $pvp);
     }
 
+    public function getLastItemOrder() {
+        $item = LineasPedidoDB::getLastItemOrder();
+        $item = $item->fetch(PDO::FETCH_ASSOC);
+        return new LineasPedido(
+            $item['id'],
+            $item['idpedido'],
+            $item['idbebida'],
+            $item['unidades'],
+            $item['PVP']
+        );
+    }
+
     public function getAllItemsFromUnfinishedOrderByClientID($id) {
         $queryResult = LineasPedidoDB::getAllItemsFromUnfinishedOrderByClientID($id);
         $drinkItems = array();

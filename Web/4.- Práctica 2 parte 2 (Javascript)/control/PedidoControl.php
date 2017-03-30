@@ -1,6 +1,7 @@
 <?php
 include_once('persistence/PedidoDB.php');
 include_once('model/Pedido.php');
+include_once('BebidaControl.php');
 include_once('LineasPedidoControl.php');
 
 class PedidoControl {
