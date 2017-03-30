@@ -48,7 +48,6 @@ class PedidoDB {
         }
         return "";
     }
-<<<<<<< HEAD
 
     public static function getDeliveryByItemOrderID($id) {
         $connection = new Connection("./datos.db");
@@ -73,8 +72,6 @@ class PedidoDB {
         }
         return "";
     }
-=======
->>>>>>> origin/master
     
     public static function updateDeliveryPVP($quantity, $drinkpvp, $uid) {
         $connection = new Connection("./datos.db");

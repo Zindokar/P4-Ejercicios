@@ -26,7 +26,6 @@ class PedidoControl {
         return $deliveries;
     }
 
-<<<<<<< HEAD
     public function getDeliveryByItemOrderID($itemid) {
         $delivery = PedidoDB::getDeliveryByItemOrderID($itemid);
         $delivery = $delivery->fetch(PDO::FETCH_ASSOC);
@@ -44,8 +43,6 @@ class PedidoControl {
         );
     }
 
-=======
->>>>>>> origin/master
     public function getAllDeliveries() {
         $queryResult = PedidoDB::getAllDeliveries();
         $deliveries = array();
@@ -101,15 +98,11 @@ class PedidoControl {
 
         // Disminuimos el Stock
         $bebidaControl->decreaseStockByDrinkID($drinkID, $quantity);
-<<<<<<< HEAD
         $this->updateDeliveryPVP($quantity, $drink->pvp, $_SESSION['user']['id']);
     }
 
     public function updateDeliveryPVP($quantity, $pvp, $userid) {
         PedidoDB::updateDeliveryPVP($quantity, $pvp, $userid);
-=======
-        PedidoDB::updateDeliveryPVP($quantity, $drink->pvp, $_SESSION['user']['id']);
->>>>>>> origin/master
     }
 
     public function deleteDeliveriesByUserID($id) {

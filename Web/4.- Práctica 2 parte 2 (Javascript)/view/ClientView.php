@@ -49,13 +49,9 @@ class ClientView {
     public function orderMenu() {
         $control = new BebidaControl();
         $drinks = $control->getAllDrinks();
-<<<<<<< HEAD
       
         echo '<div class="cuerpo">
             
-=======
-        echo '<div class="cuerpo">
->>>>>>> origin/master
                 <p>Crea o actualiza tu pedido</p>
                 <form action="index.php?page=2" method="post"><table class="tabla">
                     <tr>
@@ -74,12 +70,7 @@ class ClientView {
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" name="updateOrder" value="Actualizar pedido" /></td>
-<<<<<<< HEAD
                     </tr></form>
-=======
-                    </tr>
-                </form>
->>>>>>> origin/master
                     <tr><form action="index.php?page=3" method="post"><td colspan="2"><input type="submit" name="finishOrder" value="Terminar pedido" /></form></td></tr>
                 </table>';
         $this->printCurrentOrder();
@@ -102,7 +93,6 @@ class ClientView {
                     <tbody>';
                     $bebidaControl = new BebidaControl();
                     foreach ($orderItems as $item) {
-<<<<<<< HEAD
                         echo '<tr id="fila' . $item->id . '"><td>' . $item->id . '</td>';
                         $marcaActual = $bebidaControl->getDrinkByID($item->idbebida)->marca;
                         echo '<td>' . $marcaActual . '</td>';
@@ -113,15 +103,6 @@ class ClientView {
                               </td></tr>';
                     }
                     echo "<tr><td></td><td></td><td>Total: </td><td><span id='pvpTotal'>" . PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id'])[0]['PVP'] . "</span> €</td></tr>";
-=======
-                        echo '<tr><td>' . $item->id . '</td>';
-                        echo '<td>' . $bebidaControl->getDrinkByID($item->idbebida)->marca . '</td>';
-                        echo '<td>' . $item->unidades . '</td>';
-                        echo '<td>' . $item->pvp . '</td>';
-                        echo '<td><form action="index.php?page=2" method="post"><input type="submit" value="Eliminar"/><input type="hidden" name="iddelete" value='.$item->id.'></form></td></tr>';
-                    }
-                    echo "<tr><td></td><td></td><td>Total: </td><td>" .  PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id'])[0]['PVP']. "</td></tr>";
->>>>>>> origin/master
                 echo '</tbody></table>';
         } else {
             echo '<p><span class="negrita">Pedido vacío</span></p>';

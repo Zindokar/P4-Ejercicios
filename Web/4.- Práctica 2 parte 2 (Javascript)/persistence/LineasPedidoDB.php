@@ -3,7 +3,6 @@ include_once('Connection.php');
 
 class LineasPedidoDB {
 
-<<<<<<< HEAD
     public static function getItemOrderByID($id) {
         $connection = new Connection("./datos.db");
         try
@@ -28,8 +27,6 @@ class LineasPedidoDB {
         return "";
     }
 
-=======
->>>>>>> origin/master
     public static function getAllItemsFromOrderID($id) {
         $connection = new Connection("./datos.db");
         try
