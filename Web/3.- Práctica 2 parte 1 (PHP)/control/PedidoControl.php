@@ -26,40 +26,62 @@ class PedidoControl {
         return $deliveries;
     }
 
-    public function insertNewOrder($idList, $quantityList, $pvpList) {
+    public function getAllDeliveries() {
+        $queryResult = PedidoDB::getAllDeliveries();
+        $deliveries = array();
+        foreach ($queryResult as $delivery) {
+            array_push($deliveries,
+                new Pedido(
+                    $delivery['id'],
+                    $delivery['idcliente'],
+                    $delivery['horacreacion'],
+                    $delivery['poblacionentrega'],
+                    $delivery['direccionentrega'],
+                    $delivery['idrepartidor'],
+                    $delivery['horaasignacion'],
+                    $delivery['horareparto'],
+                    $delivery['horaentrega'],
+                    $delivery['PVP']
+                ));
+        }
+        return $deliveries;
+    }
+
+    public function finishOrder() {
+        session_start();
+        $currentOrder = PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id']);
+        if (count($currentOrder) == 0) {
+            throw new Exception("No tiene creado ningún pedido, actualícelo primero.");
+        }
+        PedidoDB::finishCurrentOrderByClientID($_SESSION['user']['id']);
+    }
+
+    public function updateOrder($drinkID, $quantity) {
+        // Comprobar que exista pedido sin finalizar
+        session_start();
+		
+		$currentOrder = PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id']);
+        // Si no existe crear un pedido con horacreacion = 0
+        if (count($currentOrder) == 0) {
+            PedidoDB::insertNewOrder($_SESSION['user']['id'], $_SESSION['user']['poblacion'], $_SESSION['user']['direccion']);
+            $currentOrder = PedidoDB::getCurrentOrderByClientID($_SESSION['user']['id']);
+        }
+        $currentOrderID = $currentOrder[0]['id'];
+
         // Comprobamos que exista stock
         $bebidaControl = new BebidaControl();
-        for ($i = 0; $i < sizeof($idList); $i++) {
-            if ($bebidaControl->getDrinkByID($idList[$i])->stock < $quantityList[$i]) {
-                throw new Exception("No hay stock suficiente para hacer el pedido.");
-            }
+        $drink = $bebidaControl->getDrinkByID($drinkID);
+        if ($drink->stock < $quantity) {
+            throw new Exception("No hay stock suficiente para hacer el pedido.");
         }
 
-        // Calculamos el pvp total para la tabla pedidos
-        $totalPVP = 0.0;
-        for ($i = 0; $i < sizeof($idList); $i++) {
-            $totalPVP += $pvpList[$i] * $quantityList[$i];
-        }
-
-        session_start();
-        // Insertamos nuevo pedido
-        PedidoDB::insertNewOrder($_SESSION['user']['id'], $_SESSION['user']['poblacion'], $_SESSION['user']['direccion'], time('now'), $totalPVP);
-        // Obtenemos ID del último pedido creado para usar el mismo en lineaspedido
-        $lastID = PedidoDB::getLastOrderID();
-        $lastID = $lastID->fetch(PDO::FETCH_ASSOC);
-        $lastID = $lastID['lastID'];
-        if ($lastID == "") {
-            $lastID = 1;
-        }
-        // Insertamos las lineaspedido del pedido de una en una por cada bebida
+        // Insertamos o actualizamos los elementos del pedido
         $controlPedidos = new LineasPedidoControl();
-        $controlBebidas = new BebidaControl();
-        for ($i = 0; $i < sizeof($idList); $i++) {
-            if ($quantityList[$i] != 0 && $quantityList[$i] != "") { // Comprobamos al menos que en los textbox no haya un 0 o vacío
-                $controlPedidos->insertOrderItem($lastID, $idList[$i], $quantityList[$i], $pvpList[$i]);
-                $controlBebidas->decreaseStockByDrinkID($idList[$i], $quantityList[$i]);
-            }
-        }
+        $controlPedidos->insertOrUpdateNewElement($drinkID, $quantity, $currentOrderID, $drink->pvp);
+
+        // Disminuimos el Stock
+        $bebidaControl->decreaseStockByDrinkID($drinkID, $quantity);
+        PedidoDB::updateDeliveryPVP($quantity, $drink->pvp, $_SESSION['user']['id']);
     }
 
     public function deleteDeliveriesByUserID($id) {

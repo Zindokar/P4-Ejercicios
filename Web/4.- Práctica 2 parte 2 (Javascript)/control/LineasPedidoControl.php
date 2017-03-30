@@ -1,6 +1,7 @@
 <?php
 include_once('persistence/LineasPedidoDB.php');
 include_once('model/LineasPedido.php');
+<<<<<<< HEAD
 include_once ('control/PedidoControl.php');
 
 class LineasPedidoControl {
@@ -17,6 +18,11 @@ class LineasPedidoControl {
         );
     }
 
+=======
+
+class LineasPedidoControl {
+
+>>>>>>> origin/master
     public function insertOrderItem($orderid, $drinkid, $quantity, $pvp) {
         LineasPedidoDB::insertOrderItem($orderid, $drinkid, $quantity, $pvp);
     }
@@ -42,11 +48,15 @@ class LineasPedidoControl {
     }
     
     public function deleteElement($id){
+<<<<<<< HEAD
         $item = $this->getItemOrderByID($id);
         $pedidoControl = new PedidoControl();
         LineasPedidoDB::deleteElement($id);
         session_start();
         $pedidoControl->updateDeliveryPVP($item->unidades, (-1) * $item->pvp, $_SESSION['user']['id']);
+=======
+        LineasPedidoDB::deleteElement($id);
+>>>>>>> origin/master
     }
 
     public function getAllItemsFromOrderID($id) {

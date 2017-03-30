@@ -53,11 +53,23 @@
     }
 
     // Llamadas al control de Pedido
-    if (isset($_POST['newOrder'])) {
+    if (isset($_POST['updateOrder'])) {
         $control = new PedidoControl();
         try {
-            $control->insertNewOrder($_POST['drinkID'], $_POST['drinkQuantity'], $_POST['drinkPVP']);
-            $msg = "Pedido creado correctamente";
+            $control->updateOrder($_POST['drinkID'], $_POST['drinkQuantity']);
+            $msg = "Pedido actualizado correctamente";
+            $color = "correcto";
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            $color = "incorrecto";
+        }
+    }
+
+    if (isset($_POST['finishOrder'])) {
+        $control = new PedidoControl();
+        try {
+            $control->finishOrder();
+            $msg = "Pedido finalizado correctamente";
             $color = "correcto";
         } catch (Exception $e) {
             $msg = $e->getMessage();
@@ -105,6 +117,10 @@
                 case 1:
                     $view->createUserForm();
                     break;
+                    
+                case 2:
+                    $view->listAllDeliveries();
+                    break;
             }
         } else {
             if (isset($_GET['edit'])) {
@@ -127,8 +143,13 @@
                     break;
 
                 case 2:
-                    $view->newOrder();
-                    break;
+                    if(isset($_POST['iddelete'])){
+                        $view->deleteOrder($_POST['iddelete']);
+                        break;
+                    }else{
+                        $view->orderMenu();
+                        break;
+                    }
 
                 case 3:
                     $view->orderList($_SESSION['user']['id']);
@@ -137,6 +158,7 @@
                 case 4:
                     $view->orderDetails($_GET['orderID']);
                     break;
+                    
             }
         } else {
             $view->drinkList();

@@ -26,6 +26,107 @@ class PedidoDB {
         }
         return "";
     }
+    
+    public static function getAllDeliveries() {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->query("SELECT * FROM pedidos;");
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+    
+    public static function updateDeliveryPVP($quantity, $drinkpvp, $uid) {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->prepare("UPDATE pedidos SET pvp = pvp + (:quantity * :drinkpvp) WHERE horacreacion = 0 AND idcliente = :idcliente;");
+            $data->bindParam(':idcliente', $uid, PDO::PARAM_INT);
+            $data->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            $data->bindParam(':drinkpvp', $drinkpvp, PDO::PARAM_STR);
+            $data->execute();
+            $data->closeCursor();
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+
+    public static function getCurrentOrderByClientID($id) {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->prepare("SELECT * FROM pedidos WHERE horacreacion = 0 AND idcliente = :idcliente;");
+            $data->bindParam(':idcliente', $id, PDO::PARAM_INT);
+            $data->execute();
+            $return=$data->fetchAll();
+            $data->closeCursor();
+            $connection = null;
+            $connectionLink = null;
+            return $return;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
+
+    public static function finishCurrentOrderByClientID($id) {
+        $connection = new Connection("./datos.db");
+        try
+        {
+            $connectionLink = $connection->connect();
+            $connectionLink->exec("PRAGMA encoding='UTF-8';");
+            $connectionLink->exec("PRAGMA foreign_keys = ON;");
+            $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $data = $connectionLink->query("UPDATE pedidos SET horacreacion = :horacreacion WHERE horacreacion = 0 AND idcliente = :idcliente;");
+            $hora = time('now');
+            $data->bindParam(':horacreacion', $hora, PDO::PARAM_INT);
+            $data->bindParam(':idcliente', $id, PDO::PARAM_INT);
+            $data->execute();
+            $connection = null;
+            $connectionLink = null;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            $connection = null;
+            $connectionLink = null;
+            throw $e;
+        }
+        return "";
+    }
 
     public static function deleteDeliveriesByUserID($id) {
         $connection = new Connection("./datos.db");
@@ -73,7 +174,7 @@ class PedidoDB {
         return "";
     }
 
-    public static function insertNewOrder($userid, $poblation, $address, $createtime, $pvp) {
+    public static function insertNewOrder($userid, $poblation, $address) {
         $connection = new Connection("./datos.db");
         try
         {
@@ -81,12 +182,10 @@ class PedidoDB {
             $connectionLink->exec("PRAGMA encoding='UTF-8';");
             $connectionLink->exec("PRAGMA foreign_keys = ON;");
             $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $data = $connectionLink->prepare("INSERT INTO pedidos (idcliente, poblacionentrega, direccionentrega, horacreacion, idrepartidor, horaasignacion, horareparto, horaentrega, PVP) VALUES (:idcliente, :poblacionentrega, :direccionentrega, :horacreacion, null, null, '0', '0', :pvp);");
+            $data = $connectionLink->prepare("INSERT INTO pedidos (idcliente, poblacionentrega, direccionentrega, horacreacion, idrepartidor, horaasignacion, horareparto, horaentrega, PVP) VALUES (:idcliente, :poblacionentrega, :direccionentrega, 0, null, null, 0, 0, 0);");
             $data->bindParam(':idcliente', $userid, PDO::PARAM_INT);
             $data->bindParam(':poblacionentrega', $poblation, PDO::PARAM_STR);
             $data->bindParam(':direccionentrega', $address, PDO::PARAM_STR);
-            $data->bindParam(':horacreacion', $createtime, PDO::PARAM_INT);
-            $data->bindParam(':pvp', $pvp, PDO::PARAM_STR);
             $data->execute();
             $connection = null;
             $connectionLink = null;
@@ -109,7 +208,7 @@ class PedidoDB {
             $connectionLink->exec("PRAGMA encoding='UTF-8';");
             $connectionLink->exec("PRAGMA foreign_keys = ON;");
             $connectionLink->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $data = $connectionLink->query("SELECT * FROM pedidos WHERE idrepartidor IS NULL;");
+            $data = $connectionLink->query("SELECT * FROM pedidos WHERE idrepartidor IS NULL AND horacreacion <> 0;");
             $connection = null;
             $connectionLink = null;
             return $data;

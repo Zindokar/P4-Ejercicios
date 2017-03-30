@@ -9,6 +9,7 @@ class AdminView {
                 <ul class="menu">
                     <li class="menuItem"><a href="index.php">Listar usuarios</a></li>
                     <li class="menuItem"><a href="index.php?page=1">Crear usuario</a></li>
+                    <li class="menuItem"><a href="index.php?page=2">Listar pedidos</a></li>
                     <li class="menuItem">
                         <form action="index.php" method="post">
                             <input type="submit" name="logout" value="Desconectar" />
@@ -16,6 +17,69 @@ class AdminView {
                     </li>
                 </ul>
             </div>';
+    }
+    
+    public function listAllDeliveries() {
+        $control = new PedidoControl();
+        $deliveries = $control->getAllDeliveries();
+        echo '<div class="cuerpo">
+                <p>Lista de sus pedidos</p>
+                <table class="tabla">
+                    <thead>
+                        <th>id</th>
+                        <th>Hora creación</th>
+                        <th>Población entrega</th>
+                        <th>Dirección entrega</th>
+                        <th>Repartidor</th>
+                        <th>Hora asignación</th>
+                        <th>Hora reparto</th>
+                        <th>Hora entrega</th>
+                        <th>PVP</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </thead>
+                    <tbody>';
+        foreach ($deliveries as $delivery) {
+            echo '<tr><td>' . $delivery->id . '</td>';
+            echo '<td>' . $delivery->printDateFromEpoch($delivery->horacreacion) . '</td>';
+            echo '<td>' . $delivery->poblacionentrega . '</td>';
+            echo '<td>' . $delivery->direccionentrega . '</td>';
+            echo '<td>' . $delivery->idrepartidor . '</td>';
+            echo '<td>' . $delivery->printDateFromEpoch($delivery->horaasignacion) . '</td>';
+            echo '<td>' . $delivery->printDateFromEpoch($delivery->horareparto) . '</td>';
+            echo '<td>' . $delivery->printDateFromEpoch($delivery->horaentrega) . '</td>';
+            echo '<td>' . $delivery->pvp . '</td>';
+            $deliveryStatus = "";
+            switch ($delivery->getDeliveryStatus()) {
+                case 0:
+                    $deliveryStatus = "No finalizado";
+                    break;
+                    
+                case 1:
+                    $deliveryStatus = "Sin asignar";
+                    break;
+                    
+                case 2:
+                    $deliveryStatus = "Asignado";
+                    break;
+                         
+                case 3:
+                    $deliveryStatus = "En reparto";
+                    break;
+                    
+                case 4:
+                    $deliveryStatus = "Entregado";
+                    break;
+                    
+                default:
+                    $deliveryStatus = "Estado desconocido";
+                    break;
+                    
+            }
+            echo '<td>' . $deliveryStatus . '</td>';
+            echo '<td><a href="index.php?page=3&orderID=' . $delivery->id . '" target="_self">Detalles</a></td></tr>';
+        }
+        echo '</tbody></table></div>';
     }
 
     public function listUsers() {

@@ -123,13 +123,16 @@ class Pedido {
     }
 
     public function getDeliveryStatus() {
-        // Si no hay hora de asignación, toca empezar a repartir
-        if ($this->horareparto == "" || $this->horareparto == 0) {
-            return 1;
-        } else if ($this->horaentrega == "" || $this->horaentrega == 0) { // No se ha entregado pero está en reparto
-            return 2;
-        } else { // Entregado
+        if ($this->horacreacion = "" || $this->horacreacion == 0) { // Sin finalizar
             return 0;
+        } else if ($this->idrepartidor = "" || $this->idrepartidor == 0) { // Sin asignar
+            return 1;
+        } else if ($this->horareparto == "" || $this->horareparto == 0) { // Asignado
+            return 2;
+        } else if ($this->horaentrega == "" || $this->horaentrega == 0) { // En reparto
+            return 3;
+        } else { // Entregado
+            return 4;
         }
     }
 }
