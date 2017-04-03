@@ -31,16 +31,17 @@ function deleteItemByID(id, name) {
 }
 
 function addItemOrder() {
-    var cantidad = parseInt(document.getElementById("drinkQuantity").value)
+    var cantidad = parseInt(document.getElementById("drinkQuantity").value);
     if (Number.isInteger(cantidad) && cantidad > 0) {
         document.getElementById("drinkQuantityDiv").style.display = "none";
         var ajax = new XMLHttpRequest();
         ajax.onreadystatechange = function() {
             if (this.readyState== 4 && this.status == 200) {
-                var res = JSON.parse(this.responseText); //resultado formato JSON {deleted:lógico}
+                var res = JSON.parse(this.responseText);
                 if(res.added === true){
                     var tabla = document.getElementById("itemOrderTable");
                     var fila = tabla.insertRow(-1);
+                    fila.id = "fila" + res.id;
                     var celdaId = fila.insertCell(0);
                     celdaId.innerHTML = res.id;
                     var celdaBebida = fila.insertCell(1);
@@ -50,16 +51,14 @@ function addItemOrder() {
                     var celdaPvp = fila.insertCell(3);
                     celdaPvp.innerHTML = res.pvpbebida;
                     var celdaAccion = fila.insertCell(4);
-                    celdaAccion.innerHTML = "<input type='button' value='Eliminar' onclick='deleteItemByID(" + res.id + ",\'" + res.bebida + "\')' />";
-                    //var fila = document.querySelector('#fila'+id); //Se usa id por la clausura
-                    //fila.parentNode.removeChild(fila); //Eliminamos la fila del juego
+                    celdaAccion.innerHTML = "<input type='button' value='Eliminar' onclick='deleteItemByID(" + res.id + ", \"" + res.bebida + "\");' />";
                     document.getElementById('pvpTotal').innerHTML = res.pvp;
                 }
             }
         };
         ajax.open("post", "ajaxAddItemOrder.php", true);
         ajax.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        ajax.send(JSON.stringify({"idbebida":document.getElementById("drinkID").value,"unidades":document.getElementById("drinkQuantity").value}));
+        ajax.send(JSON.stringify({"idbebida":document.getElementById("drinkID").value,"unidades":cantidad}));
     } else {
         document.getElementById("drinkQuantityDiv").innerHTML = "Introduce un número entero positivo";
         document.getElementById("drinkQuantityDiv").style.display = "";
@@ -70,7 +69,7 @@ var flag = 0;
 
 function checkEditUser() {
     flag = 0;
-    if (document.getElementById("passwd").value != "" && document.getElementById("passwd").value.length < 4) {
+    if (document.getElementById("passwd").value !== "" && document.getElementById("passwd").value.length < 4) {
         document.getElementById("passdiv").innerHTML = "4 caracteres o más";
         document.getElementById("passdiv").style.display = "";
         flag++;

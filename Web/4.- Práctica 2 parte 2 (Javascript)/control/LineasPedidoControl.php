@@ -56,9 +56,11 @@ class LineasPedidoControl {
     public function deleteElement($id){
         $item = $this->getItemOrderByID($id);
         $pedidoControl = new PedidoControl();
+        $bebidaControl = new BebidaControl();
         LineasPedidoDB::deleteElement($id);
         session_start();
         $pedidoControl->updateDeliveryPVP($item->unidades, (-1) * $item->pvp, $_SESSION['user']['id']);
+        $bebidaControl->decreaseStockByDrinkID($item->idbebida, (-1) * $item->unidades);
     }
 
     public function getAllItemsFromOrderID($id) {
