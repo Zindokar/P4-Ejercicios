@@ -1,7 +1,7 @@
 package textprocessing;
 public class FileReader extends Thread {
-    FileNames fileNames;
-    FileContents fileContents;
+    private FileNames fileNames;
+    private FileContents fileContents;
     
     public FileReader(FileNames fn, FileContents fc) {
         fileNames = fn;

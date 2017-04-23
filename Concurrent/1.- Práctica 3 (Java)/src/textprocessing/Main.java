@@ -12,9 +12,13 @@ public class Main{
         Cree e inicie los hilos AQUÍ
         2 FileReader y 3 FileProcessor
         */
-        
+        Tools.fileLocator(fileNames, "C:\\Users\\alexm\\Documents\\GitHub\\P4-Ejercicios\\Concurrent\\1.- Práctica 3 (Java)\\ficheros");
+
         FileReader fr1 = new FileReader(fileNames, fileContents);
         fr1.start();
+
+        FileReader fr2 = new FileReader(fileNames, fileContents);
+        fr2.start();
 
         FileProcessor fp1 = new FileProcessor(fileContents, wordFrequencies);
         fp1.start();
@@ -22,19 +26,15 @@ public class Main{
         FileProcessor fp2 = new FileProcessor(fileContents, wordFrequencies);
         fp2.start();
 
-        FileReader fr2 = new FileReader(fileNames, fileContents);
-        fr2.start();
-
         FileProcessor fp3 = new FileProcessor(fileContents, wordFrequencies);
         fp3.start();
-        
-        Tools.fileLocator(fileNames, "C:\\Users\\alexm\\Documents\\GitHub\\P4-Ejercicios\\Concurrent\\1.- Práctica 3 (Java)\\ficheros");
+
         fileNames.noMoreNames();
-        
+
         /*
         Esperar a que terminen los hilos creados
         */
-        
+
         try {
             fr1.join();
             fr2.join();

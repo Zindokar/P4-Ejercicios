@@ -3,7 +3,7 @@ import java.util.*;
 
 public class FileContents {
     private Queue<String> queue;
-    private int registerCount = 0;
+    private int registerCount = 0, lastRegisterValue = 0;
     private boolean closed = false;
     private int maxFiles, maxChars, fileCount = 0;
     
@@ -25,11 +25,9 @@ public class FileContents {
     }
     
     public synchronized void addContents(String contents) {
-        if (fileCount <= maxFiles && contents.length() <= maxChars) {
-            queue.add(contents);
-            fileCount++;
-            notifyAll();
-        }
+        queue.add(contents);
+        fileCount++;
+        notifyAll();
     }
     
     public synchronized String getContents() {
@@ -44,7 +42,6 @@ public class FileContents {
         try {
             wait();
         } catch (InterruptedException e) {}
-        notifyAll();
         return queue.poll();
     }
 }

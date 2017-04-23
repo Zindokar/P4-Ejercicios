@@ -26,7 +26,6 @@ public class FileNames {
         try {
             wait();
         } catch (InterruptedException e) {}
-        notifyAll();
         return queue.poll();
     }
     
