@@ -1,9 +1,9 @@
 package textprocessing;
 
-import com.sun.javafx.collections.MappingChange;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileProcessor extends Thread {
     private WordFrequencies wordFrequencies;
@@ -17,16 +17,22 @@ public class FileProcessor extends Thread {
     public void run() {
         String fileContent = fileContents.getContents();
         while (fileContent != null) {
-            fileContent =  fileContents.getContents();
-            if (fileContent == null || fileContent.isEmpty()) {
-                continue;
-            }
-            String [] words = fileContent.split("\\s+"); // corto las palabras por un espacio o más
-            Map<String, Integer> frequencies = new HashMap<String, Integer>();
-            for (String word : words) {
-                frequencies.put(word, frequencies.containsKey(word) ? frequencies.get(word) + 1 : 1);
-            }
-            wordFrequencies.addFrequencies(frequencies);
+            wordFrequencies.addFrequencies(getFrequenciesByString(fileContent));
+            fileContent = fileContents.getContents();
         }
+    }
+
+    private Map<String, Integer> getFrequenciesByString(String content) {
+        Map<String, Integer> frequencies = new HashMap<>();
+
+        Pattern pattern = Pattern.compile("\\b[A-z0-9]+\\b");
+        Matcher matcher = pattern.matcher(content);
+
+        while (matcher.find()) {
+            String word = matcher.group();
+            frequencies.put(word, frequencies.containsKey(word) ? frequencies.get(word) + 1 : 1);
+        }
+
+        return frequencies;
     }
 }

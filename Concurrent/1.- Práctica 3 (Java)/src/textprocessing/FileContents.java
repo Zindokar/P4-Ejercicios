@@ -1,14 +1,15 @@
 package textprocessing;
+
 import java.util.*;
 
 public class FileContents {
     private Queue<String> queue;
-    private int registerCount = 0, lastRegisterValue = 0;
+    private int registerCount = 0;
     private boolean closed = false;
-    private int maxFiles, maxChars, fileCount = 0;
+    private int maxFiles, maxChars;
     
     public FileContents(int maxFiles, int maxChars) {
-        queue = new LinkedList<String>();
+        queue = new LinkedList<>();
         this.maxFiles = maxFiles;
         this.maxChars = maxChars;
     }
@@ -25,8 +26,9 @@ public class FileContents {
     }
     
     public synchronized void addContents(String contents) {
-        queue.add(contents);
-        fileCount++;
+        if (queue.size() < maxFiles && contents.length() < maxChars) {
+            queue.add(contents);
+        }
         notifyAll();
     }
     
@@ -36,7 +38,6 @@ public class FileContents {
         }
         String text = queue.poll();
         if (text != null) {
-            notifyAll();
             return text;
         }
         try {

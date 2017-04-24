@@ -1,11 +1,13 @@
 package textprocessing;
+
 import java.util.*;
+
 public class FileNames {
     private Queue<String> queue;
     private boolean flag;
     
     public FileNames() {
-        queue = new LinkedList<String>();
+        queue = new LinkedList<>();
         flag = true;
     }
     
@@ -20,7 +22,6 @@ public class FileNames {
         }
         String element = queue.poll();
         if (element != null) {
-            notifyAll();
             return element;
         }
         try {
