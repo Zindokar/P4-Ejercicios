@@ -12,7 +12,10 @@ public class WordFrequencies {
     }
 
     public synchronized void addFrequencies(Map<String,Integer> f) {
-        frequencies.putAll(f);
+        for (Map.Entry<String, Integer> each : f.entrySet()) {
+            String word = each.getKey();
+            frequencies.put(word, frequencies.containsKey(word) ? frequencies.get(word) + each.getValue() : each.getValue());
+        }
     }
     
     public Map<String,Integer> getFrequencies() {

@@ -14,8 +14,6 @@ public class FileReader extends Thread {
         String fileName = fileNames.getName();
         while (fileName != null) {
             fileContents.addContents(Tools.getContents(fileName));
-            fileContents.unregisterWriter();
-            fileContents.registerWriter();
             fileName = fileNames.getName();
         }
         fileContents.unregisterWriter();

@@ -6,12 +6,13 @@ public class FileContents {
     private Queue<String> queue;
     private int registerCount = 0;
     private boolean closed = false;
-    private int maxFiles, maxChars;
+    private int maxFiles, maxChars, currentChars;
     
     public FileContents(int maxFiles, int maxChars) {
         queue = new LinkedList<>();
         this.maxFiles = maxFiles;
         this.maxChars = maxChars;
+        this.currentChars = 0;
     }
     
     public synchronized void registerWriter() {
@@ -26,10 +27,11 @@ public class FileContents {
     }
     
     public synchronized void addContents(String contents) {
-        if (queue.size() < maxFiles && contents.length() < maxChars) {
+        if (queue.size() < maxFiles && currentChars < maxChars) {
+            currentChars += contents.length();
             queue.add(contents);
+            notifyAll(); // Sólo notifico si he introducido un dato correctamente
         }
-        notifyAll();
     }
     
     public synchronized String getContents() {

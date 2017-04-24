@@ -17,15 +17,16 @@ public class FileProcessor extends Thread {
     public void run() {
         String fileContent = fileContents.getContents();
         while (fileContent != null) {
-            wordFrequencies.addFrequencies(getFrequenciesByString(fileContent));
+            wordFrequencies.addFrequencies(getMapFrequenciesByString(fileContent));
             fileContent = fileContents.getContents();
         }
     }
 
-    private Map<String, Integer> getFrequenciesByString(String content) {
+    private Map<String, Integer> getMapFrequenciesByString(String content) {
         Map<String, Integer> frequencies = new HashMap<>();
 
-        Pattern pattern = Pattern.compile("\\b[A-z0-9]+\\b");
+        //Pattern pattern = Pattern.compile("\\b[A-z0-9áéíóúÁÉÍÓÚñÑ]{2,}+\\b");
+        Pattern pattern = Pattern.compile("\\b[A-z0-9áéíóúÁÉÍÓÚñÑ]+\\b");
         Matcher matcher = pattern.matcher(content);
 
         while (matcher.find()) {
