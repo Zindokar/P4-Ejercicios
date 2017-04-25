@@ -23,6 +23,7 @@ public class FileContents {
         registerCount--;
         if (registerCount == 0) {
             closed = true;
+            notifyAll();
         }
     }
     
@@ -38,9 +39,9 @@ public class FileContents {
         if (closed) {
             return null;
         }
-        String text = queue.poll();
-        if (text != null) {
-            return text;
+        String element = queue.poll();
+        if (element != null) {
+            return element;
         }
         try {
             wait();

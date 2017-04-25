@@ -29,7 +29,7 @@ public class Main{
         FileProcessor fp3 = new FileProcessor(fileContents, wordFrequencies);
         fp3.start();
 
-        Tools.fileLocator(fileNames, "datos");
+        Tools.fileLocator(fileNames, "C:\\Users\\alexm\\Documents\\GitHub\\P4-Ejercicios\\Concurrent\\1.- Práctica 3 (Java)\\ficheros");
         fileNames.noMoreNames();
 
         /*
