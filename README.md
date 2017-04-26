@@ -12,7 +12,7 @@ Prácticas de programación concurrente en Java.
 
 ### Functional
 
-Ejercicios y prácticas sobre programación funcional en Scheme.
+Ejercicios y prácticas sobre programación funcional en Scheme/Racket.
 
 ### Logic
 
