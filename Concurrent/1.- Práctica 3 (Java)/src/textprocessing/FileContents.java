@@ -1,51 +1,55 @@
 package textprocessing;
-
 import java.util.*;
 
 public class FileContents {
     private Queue<String> queue;
     private int registerCount = 0;
     private boolean closed = false;
-    private int maxFiles, maxChars, currentChars;
+    private int maxFiles, maxChars, fileCount = 0;
     
     public FileContents(int maxFiles, int maxChars) {
-        queue = new LinkedList<>();
+        queue = new LinkedList<String>();
         this.maxFiles = maxFiles;
         this.maxChars = maxChars;
-        this.currentChars = 0;
     }
     
-    public synchronized void registerWriter() {
-        registerCount++;
-    }
-    
-    public synchronized void unregisterWriter() {
-        registerCount--;
-        if (registerCount == 0) {
-            closed = true;
-            notifyAll();
+    public void registerWriter() {
+        synchronized (this) {
+            registerCount++;
         }
     }
     
-    public synchronized void addContents(String contents) {
-        if (queue.size() < maxFiles && currentChars < maxChars) {
-            currentChars += contents.length();
-            queue.add(contents);
-            notifyAll(); // Sólo notifico si he introducido un dato correctamente
+    public void unregisterWriter() {
+        synchronized (this) {
+            registerCount--;
+            if (registerCount == 0) {
+                closed = true;
+            }
         }
     }
     
-    public synchronized String getContents() {
-        if (closed) {
-            return null;
+    public void addContents(String contents) {
+        synchronized (this) {
+            if (fileCount <= maxFiles && contents.length() <= maxChars) {
+                queue.add(contents);
+                fileCount++;
+            }
         }
-        String element = queue.poll();
-        if (element != null) {
-            return element;
+    }
+    
+    public String getContents() {
+        synchronized (this) {
+            if (closed) {
+                return null;
+            }
+            String text = queue.poll();
+            if (text != null) {
+                return text;
+            }
+            try {
+                wait();
+            } catch (InterruptedException e) {}
+            return queue.poll();
         }
-        try {
-            wait();
-        } catch (InterruptedException e) {}
-        return queue.poll();
     }
 }

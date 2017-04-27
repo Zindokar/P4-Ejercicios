@@ -1,5 +1,4 @@
 package textprocessing;
-
 import java.util.*;
 import java.io.*;
 
@@ -8,34 +7,25 @@ public class Main{
         FileNames fileNames= new FileNames();
         FileContents fileContents= new FileContents(30, 100 * 1024);
         WordFrequencies wordFrequencies= new WordFrequencies();
-        
         /*
         Cree e inicie los hilos AQUÍ
         2 FileReader y 3 FileProcessor
         */
-        
         FileReader fr1 = new FileReader(fileNames, fileContents);
-        fr1.start();
-
+        fr1.run();
         FileReader fr2 = new FileReader(fileNames, fileContents);
-        fr2.start();
-
+        fr2.run();
         FileProcessor fp1 = new FileProcessor(fileContents, wordFrequencies);
-        fp1.start();
-
+        fp1.run();
         FileProcessor fp2 = new FileProcessor(fileContents, wordFrequencies);
-        fp2.start();
-
+        fp2.run();
         FileProcessor fp3 = new FileProcessor(fileContents, wordFrequencies);
-        fp3.start();
-
-        Tools.fileLocator(fileNames, "C:\\Users\\alexm\\Documents\\GitHub\\P4-Ejercicios\\Concurrent\\1.- Práctica 3 (Java)\\ficheros");
+        fp3.run();
+        Tools.fileLocator(fileNames, "datos");
         fileNames.noMoreNames();
-
         /*
         Esperar a que terminen los hilos creados
         */
-
         try {
             fr1.join();
             fr2.join();
@@ -43,7 +33,6 @@ public class Main{
             fp2.join();
             fp3.join();
         } catch (InterruptedException e) {}
-        
         for( String palabra : Tools.wordSelector(wordFrequencies.getFrequencies())) {
             System.out.println(palabra);
         }
@@ -96,7 +85,7 @@ class Tools {
         String text = "";
 		try {
 		    FileInputStream fis = new FileInputStream( fileName );
-	        BufferedReader br = new BufferedReader( new InputStreamReader(fis, "UTF-8") );
+	        BufferedReader br = new BufferedReader( new InputStreamReader(fis, "ISO8859-1") );
 			String line;
 			while (( line = br.readLine()) != null) {
 				text += line + "\n";
