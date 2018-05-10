@@ -1,4 +1,5 @@
 package textprocessing;
+
 import java.util.*;
 import java.io.*;
 
@@ -7,25 +8,34 @@ public class Main{
         FileNames fileNames= new FileNames();
         FileContents fileContents= new FileContents(30, 100 * 1024);
         WordFrequencies wordFrequencies= new WordFrequencies();
+
         /*
         Cree e inicie los hilos AQUÍ
         2 FileReader y 3 FileProcessor
         */
+
         FileReader fr1 = new FileReader(fileNames, fileContents);
-        fr1.run();
+        fr1.start();
+
         FileReader fr2 = new FileReader(fileNames, fileContents);
-        fr2.run();
+        fr2.start();
+
         FileProcessor fp1 = new FileProcessor(fileContents, wordFrequencies);
-        fp1.run();
+        fp1.start();
+
         FileProcessor fp2 = new FileProcessor(fileContents, wordFrequencies);
-        fp2.run();
+        fp2.start();
+
         FileProcessor fp3 = new FileProcessor(fileContents, wordFrequencies);
-        fp3.run();
-        Tools.fileLocator(fileNames, "datos");
+        fp3.start();
+
+        Tools.fileLocator(fileNames, "C:\\Users\\alexm\\IdeaProjects\\kevinelmaricajajajajajajaxd\\ficheros");
         fileNames.noMoreNames();
+
         /*
         Esperar a que terminen los hilos creados
         */
+
         try {
             fr1.join();
             fr2.join();
@@ -33,6 +43,7 @@ public class Main{
             fp2.join();
             fp3.join();
         } catch (InterruptedException e) {}
+
         for( String palabra : Tools.wordSelector(wordFrequencies.getFrequencies())) {
             System.out.println(palabra);
         }
@@ -66,11 +77,11 @@ class Tools {
             return o2.getValue().compareTo(o1.getValue());
         }
     }
-    
+
     public static List<String> wordSelector(Map<String,Integer> wf){
         Set<Map.Entry<String,Integer>> set=wf.entrySet();
         Set<Map.Entry<String,Integer>> orderSet= new TreeSet<Map.Entry<String,Integer>>(
-            new Order());
+                new Order());
         orderSet.addAll(set);
         List<String> l = new LinkedList<String>();
         int i=0;
@@ -83,17 +94,17 @@ class Tools {
 
     public static String getContents(String fileName){
         String text = "";
-		try {
-		    FileInputStream fis = new FileInputStream( fileName );
-	        BufferedReader br = new BufferedReader( new InputStreamReader(fis, "ISO8859-1") );
-			String line;
-			while (( line = br.readLine()) != null) {
-				text += line + "\n";
-			}
-		} catch (IOException e) {
-			return "Error: " + e.getMessage();
-		}
+        try {
+            FileInputStream fis = new FileInputStream( fileName );
+            BufferedReader br = new BufferedReader( new InputStreamReader(fis, "UTF-8") );
+            String line;
+            while (( line = br.readLine()) != null) {
+                text += line + "\n";
+            }
+        } catch (IOException e) {
+            return "Error: " + e.getMessage();
+        }
         return text;
     }
-    
+
 }
