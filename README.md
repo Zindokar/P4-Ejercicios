@@ -17,3 +17,5 @@ Ejercicios y prácticas sobre programación funcional en Scheme/Racket.
 ### Logic
 
 Prácticas de programación lógica en Prolog.
+
+### Lo guardo como recuerdo de la Universidad (L)
